@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Test</title>
+  </head>
+  <body>
+    <h2>Hello World!</h2>
+    <p>you said</p>
+    <div>{{text}}</div>
+
+    {% for headline in headlines %}
+      <div>{{headline["webTitle"]}}</div>
+    {% endfor %}
+
+  </body>
+</html>
