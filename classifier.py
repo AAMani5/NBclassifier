@@ -2,23 +2,23 @@ import nltk
 
 
 
-positiveReviewsFileName = "./polaritydata/rt-polarity.pos"
-negativeReviewsFileName = "./polaritydata/rt-polarity.neg"
+positiveReviewsFileName = "./polaritydata/fin.pos"
+negativeReviewsFileName = "./polaritydata/fin.neg"
 
-with open(positiveReviewsFileName,'r') as f:
-    positiveReviews = f.readlines()
+with open(positiveReviewsFileName,'rb') as f:
+    trainingPositiveReviews = f.readlines()
 
-with open(negativeReviewsFileName,'r') as f:
-    negativeReviews = f.readlines()
+with open(negativeReviewsFileName,'rb') as f:
+    trainingNegativeReviews = f.readlines()
 
 
-testTrainingSplitIndex = 2500
+# testTrainingSplitIndex = 2500
 
-testNegativeReviews = negativeReviews[testTrainingSplitIndex+1:]
-testPositiveReviews = positiveReviews[testTrainingSplitIndex+1:]
-
-trainingNegativeReviews = negativeReviews[:testTrainingSplitIndex]
-trainingPositiveReviews = positiveReviews[:testTrainingSplitIndex]
+# testNegativeReviews = negativeReviews[testTrainingSplitIndex+1:]
+# testPositiveReviews = positiveReviews[testTrainingSplitIndex+1:]
+#
+# trainingNegativeReviews = negativeReviews[:testTrainingSplitIndex]
+# trainingPositiveReviews = positiveReviews[:testTrainingSplitIndex]
 
 
 
