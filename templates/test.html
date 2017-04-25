@@ -7,11 +7,15 @@
   <body>
     <h2>Hello World!</h2>
     <p>you said</p>
-    <div>{{text}}</div>
-
-    {% for headline in headlines %}
-      <div>{{headline["webTitle"]}}</div>
+    <!-- <div>{{text}}</div>
+    <div>{{result}}</div> -->
+    {% for one in send %}
+      <div>{{one}}</div>
     {% endfor %}
+
+    <!-- {% for result in results %}
+      <div>{{result}}</div>
+    {% endfor %} -->
 
   </body>
 </html>
