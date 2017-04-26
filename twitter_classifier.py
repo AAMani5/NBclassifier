@@ -5,7 +5,7 @@ import pickle
 trainingPositiveReviews = twitter_samples.strings('positive_tweets.json')
 trainingNegativeReviews = twitter_samples.strings('negative_tweets.json')
 
-def getVocabulary():
+def getVocabulary(trainingPositiveReviews, trainingNegativeReviews):
   positiveWordList = [word for line in trainingPositiveReviews for word in line.split()]
   negativeWordList = [word for line in trainingNegativeReviews for word in line.split()]
   allWordList = [item for sublist in [positiveWordList,negativeWordList] for item in sublist]
@@ -13,14 +13,16 @@ def getVocabulary():
   vocabulary = allWordSet
   return vocabulary
 
-def getTrainingData():
+def getTrainingData(trainingPositiveReviews, trainingNegativeReviews):
   negTaggedTrainingReviewList = [{'review':oneReview.split(),'label':'negative'} for oneReview in trainingNegativeReviews]
   posTaggedTrainingReviewList = [{'review':oneReview.split(),'label':'positive'} for oneReview in trainingPositiveReviews]
   fullTaggedTrainingData = [item for sublist in [negTaggedTrainingReviewList,posTaggedTrainingReviewList] for item in sublist]
   trainingData = [(review['review'],review['label']) for review in fullTaggedTrainingData]
   return trainingData
 
-def extract_features(review):
+  vocabulary = getVocabulary()
+
+def extract_features(review, vocabulary):
   review_words=set(review)
   features={}
   for word in vocabulary:
@@ -33,14 +35,14 @@ def getTrainedNaiveBayesClassifier(extract_features, trainingData):
   trainedNBClassifier=nltk.NaiveBayesClassifier.train(trainingFeatures) # Train the Classifier
   return trainedNBClassifier
 
-# vocabulary = getVocabulary()
+
 # trainingData = getTrainingData()
 # trainedNBClassifier = getTrainedNaiveBayesClassifier(extract_features,trainingData)
 #
 # f = open('twitter_classifier.pickle', 'wb')
 # pickle.dump(trainedNBClassifier, f)
 # f.close()
-# 
+#
 # vocabulary_file = open('vocabulary.pickle', 'wb')
 # pickle.dump(vocabulary, vocabulary_file)
 # vocabulary_file.close()

@@ -1,5 +1,5 @@
 import pytest
-from classifier import extract_features, getVocabulary, getTrainingData, getTrainedNaiveBayesClassifier
+from twitter_classifier import extract_features, getVocabulary, getTrainingData, getTrainedNaiveBayesClassifier
 
 
 def multiply(a, b):
@@ -9,18 +9,15 @@ def test_numbers_3_4():
     assert multiply(3,4) == 12
 
 
-# def test_extract_features():
-#     # assert extract_features("this is a test") ==
-#     pass
-#
-# def test_getVocabulary():
-#     # assert getVocabulary()
-#     pass
-#
-# def test_getTrainingData():
-#     # assert getTrainingData()
-#     pass
-#
+def test_extract_features():
+    assert extract_features("this is a test",['test', 'a','always'] ) == {'test':False, 'a': True, 'always': False}
+
+def test_getVocabulary():
+    assert getVocabulary(["amazing", "great"],["terrible","worst"]) == ["amazing", "worst", "great", "terrible"]
+
+def test_getTrainingData():
+    assert getTrainingData(["amazing", "great"],["terrible","worst"]) == [(["terrible"],'negative'),(["worst"],'negative'),(['amazing'],'positive'),(['great'], 'positive')]
+
 # def test_getTrainedNaiveBayesClassifier():
 #     # assert getTrainedNaiveBayesClassifier()
 #     pass
