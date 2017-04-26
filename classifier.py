@@ -11,7 +11,6 @@ with open(positiveReviewsFileName,'rb') as f:
 with open(negativeReviewsFileName,'rb') as f:
     trainingNegativeReviews = f.readlines()
 
-
 # testTrainingSplitIndex = 2500
 
 # testNegativeReviews = negativeReviews[testTrainingSplitIndex+1:]
