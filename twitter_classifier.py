@@ -56,25 +56,38 @@ trainedNBClassifier, trainingFeatures = getTrainedNaiveBayesClassifier(extract_f
 # pickle.dump(vocabulary, vocabulary_file)
 # vocabulary_file.close()
 
-# def getTestReviewSentiments(naiveBayesSentimentCalculator):
-#   testNegResults = [naiveBayesSentimentCalculator(review) for review in testNegativeReviews]
-#   testPosResults = [naiveBayesSentimentCalculator(review) for review in testPositiveReviews]
-#   labelToNum = {'positive':1,'negative':-1}
-#   numericNegResults = [labelToNum[x] for x in testNegResults]
-#   numericPosResults = [labelToNum[x] for x in testPosResults]
-#   return {'results-on-positive':numericPosResults, 'results-on-negative':numericNegResults}
-#
-#
-# def runDiagnostics(reviewResult):
-#   positiveReviewsResult = reviewResult['results-on-positive']
-#   negativeReviewsResult = reviewResult['results-on-negative']
-#   numTruePositive = sum(x > 0 for x in positiveReviewsResult)
-#   numTrueNegative = sum(x < 0 for x in negativeReviewsResult)
-#   pctTruePositive = float(numTruePositive)/len(positiveReviewsResult)
-#   pctTrueNegative = float(numTrueNegative)/len(negativeReviewsResult)
-#   totalAccurate = numTruePositive + numTrueNegative
-#   total = len(positiveReviewsResult) + len(negativeReviewsResult)
-#   print "Accuracy on positive reviews = " +"%.2f" % (pctTruePositive*100) + "%"
-#   print "Accurance on negative reviews = " +"%.2f" % (pctTrueNegative*100) + "%"
-#   print "Overall accuracy = " + "%.2f" % (totalAccurate*100/total) + "%"
-#
+with open('./polaritydata/neg.txt','r') as f:
+    testNegativeReviews = f.readlines()
+
+with open('./polaritydata/pos.txt','r') as f:
+    testPositiveReviews = f.readlines()
+
+def naiveBayesSentimentCalculator(review):
+  problemInstance = review.split()
+  problemFeatures = extract_features(problemInstance)
+  return trainedNBClassifier.classify(problemFeatures)
+
+def getTestReviewSentiments(naiveBayesSentimentCalculator):
+  testNegResults = [naiveBayesSentimentCalculator(review) for review in testNegativeReviews]
+  testPosResults = [naiveBayesSentimentCalculator(review) for review in testPositiveReviews]
+  labelToNum = {'positive':1,'negative':-1}
+  numericNegResults = [labelToNum[x] for x in testNegResults]
+  numericPosResults = [labelToNum[x] for x in testPosResults]
+  return {'results-on-positive':numericPosResults, 'results-on-negative':numericNegResults}
+
+
+def runDiagnostics(reviewResult):
+  positiveReviewsResult = reviewResult['results-on-positive']
+  negativeReviewsResult = reviewResult['results-on-negative']
+  numTruePositive = sum(x > 0 for x in positiveReviewsResult)
+  numTrueNegative = sum(x < 0 for x in negativeReviewsResult)
+  pctTruePositive = float(numTruePositive)/len(positiveReviewsResult)
+  pctTrueNegative = float(numTrueNegative)/len(negativeReviewsResult)
+  totalAccurate = numTruePositive + numTrueNegative
+  total = len(positiveReviewsResult) + len(negativeReviewsResult)
+  print "Accuracy on positive reviews = " +"%.2f" % (pctTruePositive*100) + "%"
+  print "Accurance on negative reviews = " +"%.2f" % (pctTrueNegative*100) + "%"
+  print "Overall accuracy = " + "%.2f" % (totalAccurate*100/total) + "%"
+
+reviewResult = getTestReviewSentiments(naiveBayesSentimentCalculator)
+runDiagnostics(reviewResult)
