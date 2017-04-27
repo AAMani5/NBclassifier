@@ -21,10 +21,10 @@ def getTrainingData(trainingPositiveReviews, trainingNegativeReviews):
   trainingData = [(review['review'],review['label']) for review in fullTaggedTrainingData]
   return trainingData
 
-  # vocabulary = getVocabulary()
 
-def extract_features(review, vocabulary):
-  review_words=set(review.split())
+
+def extract_features(review):
+  review_words=set(review)
   features={}
   for word in vocabulary:
       features[word]=(word in review_words)
@@ -34,12 +34,20 @@ def extract_features(review, vocabulary):
 def getTrainedNaiveBayesClassifier(extract_features, trainingData):
   trainingFeatures=nltk.classify.apply_features(extract_features, trainingData)
   trainedNBClassifier=nltk.NaiveBayesClassifier.train(trainingFeatures) # Train the Classifier
-  return trainedNBClassifier
+  return trainedNBClassifier, trainingFeatures
+
+vocabulary = getVocabulary(trainingPositiveReviews, trainingNegativeReviews)
+trainingData = getTrainingData(trainingPositiveReviews, trainingNegativeReviews)
+trainedNBClassifier, trainingFeatures = getTrainedNaiveBayesClassifier(extract_features,trainingData)
+
+# print len(trainingPositiveReviews) # 5000
+# print len(trainingNegativeReviews) # 5000
+# print len(vocabulary) # 28492
+# print len(trainingData) # 10000
+# print len(trainingFeatures) #10000
 
 
-# trainingData = getTrainingData(trainingPositiveReviews, trainingNegativeReviews)
-# trainedNBClassifier = getTrainedNaiveBayesClassifier(extract_features,trainingData)
-#
+
 # f = open('twitter_classifier.pickle', 'wb')
 # pickle.dump(trainedNBClassifier, f)
 # f.close()
