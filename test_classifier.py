@@ -9,7 +9,7 @@ def test_numbers_3_4():
     assert multiply(3,4) == 12
 
 
-def test_extract_features():
+def test_extract_features(): # can't take vocabulary as parameter anymore
     assert extract_features("this is a test",['test', 'a','always'] ) == {'test':True, 'a': True, 'always': False}
 
 def test_getVocabulary():
