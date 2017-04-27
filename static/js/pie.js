@@ -35,7 +35,7 @@ document.getElementById("accept").onclick = function draw (){
        title: {
            display: true,
            position: "top",
-           text: "Positive and Negative Pie Chart",
+           text: "Mood in the UK",
            fontSize: 18,
            fontColor: "#111"
        },

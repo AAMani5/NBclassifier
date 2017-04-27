@@ -45,7 +45,7 @@ def test():
             results.append(result)
         classifications = zip(tweets, results)
         session['results'] = results
-        return render_template('test.html', classifications=classifications)
+        return render_template('test.html', text=text)
 
 
 if __name__ == '__main__':
