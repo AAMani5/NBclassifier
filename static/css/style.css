@@ -1,3 +1,10 @@
 body {
   background-color: lightblue
 }
+
+#pie-chart-container {
+  border-style: solid;
+  border-color: black;
+  height: 300px;
+  width: 300px;
+}
