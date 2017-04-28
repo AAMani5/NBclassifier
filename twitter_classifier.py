@@ -3,8 +3,17 @@ import json
 from nltk.corpus import twitter_samples
 import pickle
 
-trainingPositiveReviews = twitter_samples.strings('positive_tweets.json')
-trainingNegativeReviews = twitter_samples.strings('negative_tweets.json')
+positiveReviews = twitter_samples.strings('positive_tweets.json')
+negativeReviews = twitter_samples.strings('negative_tweets.json')
+
+testTrainingSplitIndex = 2500
+
+testNegativeReviews = negativeReviews[testTrainingSplitIndex+1:]
+testPositiveReviews = positiveReviews[testTrainingSplitIndex+1:]
+
+trainingPositiveReviews = positiveReviews[:testTrainingSplitIndex]
+trainingNegativeReviews = negativeReviews[:testTrainingSplitIndex]
+
 
 def getVocabulary(trainingPositiveReviews, trainingNegativeReviews):
   positiveWordList = [word for line in trainingPositiveReviews for word in line.split()]
@@ -56,11 +65,11 @@ trainedNBClassifier, trainingFeatures = getTrainedNaiveBayesClassifier(extract_f
 # pickle.dump(vocabulary, vocabulary_file)
 # vocabulary_file.close()
 
-with open('./polaritydata/neg.txt','r') as f:
-    testNegativeReviews = f.readlines()
-
-with open('./polaritydata/pos.txt','r') as f:
-    testPositiveReviews = f.readlines()
+# with open('./polaritydata/neg.txt','r') as f:
+#     testNegativeReviews = f.readlines()
+#
+# with open('./polaritydata/pos.txt','r') as f:
+#     testPositiveReviews = f.readlines()
 
 def naiveBayesSentimentCalculator(review):
   problemInstance = review.split()
