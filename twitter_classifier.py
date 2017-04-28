@@ -45,9 +45,9 @@ def getTrainedNaiveBayesClassifier(extract_features, trainingData):
   trainedNBClassifier=nltk.NaiveBayesClassifier.train(trainingFeatures) # Train the Classifier
   return trainedNBClassifier, trainingFeatures
 
-vocabulary = getVocabulary(trainingPositiveReviews, trainingNegativeReviews)
-trainingData = getTrainingData(trainingPositiveReviews, trainingNegativeReviews)
-trainedNBClassifier, trainingFeatures = getTrainedNaiveBayesClassifier(extract_features,trainingData)
+# vocabulary = getVocabulary(trainingPositiveReviews, trainingNegativeReviews)
+# trainingData = getTrainingData(trainingPositiveReviews, trainingNegativeReviews)
+# trainedNBClassifier, trainingFeatures = getTrainedNaiveBayesClassifier(extract_features,trainingData)
 
 # print len(trainingPositiveReviews) # 5000
 # print len(trainingNegativeReviews) # 5000
@@ -98,5 +98,5 @@ def runDiagnostics(reviewResult):
   print "Accurance on negative reviews = " +"%.2f" % (pctTrueNegative*100) + "%"
   print "Overall accuracy = " + "%.2f" % (totalAccurate*100/total) + "%"
 
-reviewResult = getTestReviewSentiments(naiveBayesSentimentCalculator)
-runDiagnostics(reviewResult)
+# reviewResult = getTestReviewSentiments(naiveBayesSentimentCalculator)
+# runDiagnostics(reviewResult)
