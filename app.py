@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, session
+from flask import Flask, render_template, request, jsonify, session, redirect, url_for
 import requests
 import json
 import pickle
@@ -30,22 +30,25 @@ def index():
 @app.route("/json")
 def json():
     results = session['results']
-    return jsonify(results=results)
+    text = session['text']
+    values = [results.count('positive'), results.count('negative')]
+    return render_template('test.html', values=values, text=text)
 
 @app.route("/test", methods=['POST', 'GET'])
 def test():
     if request.method == 'POST':
         text = request.form['userinput']
-        tweets = getTweets(text, "en", 100, "recent", "tweets.txt")
+        tweets = getTweets(text, "en", 10, "recent", "tweets.txt")
         results = []
         for tweet in tweets:
             problemInstance = tweet.split()
             problemFeatures = extract_features(problemInstance)
             result = trainedNBClassifier.classify(problemFeatures)
             results.append(result)
-        classifications = zip(tweets, results)
+        # classifications = zip(tweets, results)
         session['results'] = results
-        return render_template('test.html', text=text)
+        session['text'] = text
+        return redirect(url_for('json'))
 
 
 if __name__ == '__main__':
