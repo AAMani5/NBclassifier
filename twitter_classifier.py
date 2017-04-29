@@ -45,7 +45,7 @@ def getTrainedNaiveBayesClassifier(extract_features, trainingData):
   trainedNBClassifier=nltk.NaiveBayesClassifier.train(trainingFeatures) # Train the Classifier
   return trainedNBClassifier, trainingFeatures
 
-# vocabulary = getVocabulary(trainingPositiveReviews, trainingNegativeReviews)
+vocabulary = getVocabulary(trainingPositiveReviews, trainingNegativeReviews)
 # trainingData = getTrainingData(trainingPositiveReviews, trainingNegativeReviews)
 # trainedNBClassifier, trainingFeatures = getTrainedNaiveBayesClassifier(extract_features,trainingData)
 
