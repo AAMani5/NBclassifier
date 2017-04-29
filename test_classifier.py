@@ -10,7 +10,7 @@ def test_numbers_3_4():
 
 
 def test_extract_features(): # can't take vocabulary as parameter anymore
-    assert extract_features("this is a test") == {'test':True, 'a': True, 'always': False}
+    assert set(extract_features("this is a test").values()) == set([False, True])
 
 def test_getVocabulary():
     assert getVocabulary(["amazing", "great"],["terrible","worst"]) == ["amazing", "worst", "great", "terrible"]
