@@ -1,10 +1,31 @@
-body {
-  background-color: #DDF5F7
-}
 
 #pie-chart-container {
   border-style: solid;
   border-color: black;
   height: 300px;
   width: 300px;
+}
+
+body {
+  background-color: #fff;
+  text-align: center;
+  padding: 300px;
+
+}
+
+input {
+  height: 30px;
+  width: 400px;
+  font-size: medium;
+  border-style: outset;
+}
+
+button#accept {
+  height: 35px;
+  width: 100px;
+  font-size: small;
+  background-color: #fff;
+  border-radius: 10px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
 }
