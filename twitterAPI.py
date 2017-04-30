@@ -22,4 +22,4 @@ def getTweets(query="cheese", lang="en", count="130", result_type="recent", file
 
     return tweets
 
-getTweets()
+# getTweets()
