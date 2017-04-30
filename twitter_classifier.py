@@ -6,13 +6,16 @@ import pickle
 positiveReviews = twitter_samples.strings('positive_tweets.json')
 negativeReviews = twitter_samples.strings('negative_tweets.json')
 
-testTrainingSplitIndex = 2500
+trainingPositiveReviews = positiveReviews
+trainingNegativeReviews = negativeReviews
 
-testNegativeReviews = negativeReviews[testTrainingSplitIndex+1:]
-testPositiveReviews = positiveReviews[testTrainingSplitIndex+1:]
-
-trainingPositiveReviews = positiveReviews[:testTrainingSplitIndex]
-trainingNegativeReviews = negativeReviews[:testTrainingSplitIndex]
+# testTrainingSplitIndex = 2500
+#
+# testNegativeReviews = negativeReviews[testTrainingSplitIndex+1:]
+# testPositiveReviews = positiveReviews[testTrainingSplitIndex+1:]
+#
+# trainingPositiveReviews = positiveReviews[:testTrainingSplitIndex]
+# trainingNegativeReviews = negativeReviews[:testTrainingSplitIndex]
 
 
 def getVocabulary(trainingPositiveReviews, trainingNegativeReviews):
@@ -35,7 +38,7 @@ def getTrainingData(trainingPositiveReviews, trainingNegativeReviews):
 def extract_features(review):
   review_words=set(review)
   features={}
-  for word in vocabulary:
+  for word in refined_vocabulary:
       features[word]=(word in review_words)
   return features
 
@@ -45,10 +48,18 @@ def getTrainedNaiveBayesClassifier(extract_features, trainingData):
   trainedNBClassifier=nltk.NaiveBayesClassifier.train(trainingFeatures) # Train the Classifier
   return trainedNBClassifier, trainingFeatures
 
-vocabulary = getVocabulary(trainingPositiveReviews, trainingNegativeReviews)
-# trainingData = getTrainingData(trainingPositiveReviews, trainingNegativeReviews)
-# trainedNBClassifier, trainingFeatures = getTrainedNaiveBayesClassifier(extract_features,trainingData)
+all_vocabulary = getVocabulary(trainingPositiveReviews, trainingNegativeReviews)
+all_vocabulary_fdist = nltk.probability.FreqDist(all_vocabulary)
+most_common_vocabulary = all_vocabulary_fdist.most_common(1000)
+most_common_vocabulary_dict = dict(most_common_vocabulary)
+words_to_remove = list(most_common_vocabulary_dict.keys())
+refined_vocabulary = [word for word in all_vocabulary if word not in words_to_remove]
 
+# print(len(refined_vocabulary))
+trainingData = getTrainingData(trainingPositiveReviews, trainingNegativeReviews)
+trainedNBClassifier, trainingFeatures = getTrainedNaiveBayesClassifier(extract_features,trainingData)
+
+## printing lengths
 # print len(trainingPositiveReviews) # 5000
 # print len(trainingNegativeReviews) # 5000
 # print len(vocabulary) # 28492
@@ -56,7 +67,7 @@ vocabulary = getVocabulary(trainingPositiveReviews, trainingNegativeReviews)
 # print len(trainingFeatures) #10000
 
 
-
+## pickling classifier, vocabulary
 # f = open('twitter_classifier.pickle', 'wb')
 # pickle.dump(trainedNBClassifier, f)
 # f.close()
@@ -65,11 +76,12 @@ vocabulary = getVocabulary(trainingPositiveReviews, trainingNegativeReviews)
 # pickle.dump(vocabulary, vocabulary_file)
 # vocabulary_file.close()
 
-# with open('./polaritydata/neg.txt','r') as f:
-#     testNegativeReviews = f.readlines()
-#
-# with open('./polaritydata/pos.txt','r') as f:
-#     testPositiveReviews = f.readlines()
+## getting test data from tweets collected from API
+with open('./polaritydata/neg.txt','r') as f:
+    testNegativeReviews = f.readlines()
+
+with open('./polaritydata/pos.txt','r') as f:
+    testPositiveReviews = f.readlines()
 
 def naiveBayesSentimentCalculator(review):
   problemInstance = review.split()
@@ -98,5 +110,5 @@ def runDiagnostics(reviewResult):
   print "Accurance on negative reviews = " +"%.2f" % (pctTrueNegative*100) + "%"
   print "Overall accuracy = " + "%.2f" % (totalAccurate*100/total) + "%"
 
-# reviewResult = getTestReviewSentiments(naiveBayesSentimentCalculator)
-# runDiagnostics(reviewResult)
+reviewResult = getTestReviewSentiments(naiveBayesSentimentCalculator)
+runDiagnostics(reviewResult)
